@@ -1,36 +1,30 @@
 <?php
-// src/AppBundle/Controller/AddController.php
+// src/AppBundle/Controller/UpdateController.php
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Details;
-use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
 
-class AddController extends Controller
-{  
+class UpdateController extends Controller{
 
 
-/**
-     * @Route("/form/add")
+
+
+
+	/**
+     * @Route("/form/update/{id}")
      * @Template()
      */
-    public function newAction(Request $request)
-    {
-        // create a task and give it some dummy data for this example
-        $details = new Details();
-        $details->setName('');
-        $details->setEmail('');
-		$details->setAddress('');
-        $details->setPhone('');
-        $details->setWebsite('');
-        $user = $this->getUser();
-		$details->setUser($user);
- 
-        $form = $this->createFormBuilder($details)
+	public function updateAction($id ,Request $request)
+	{
+    $em = $this->getDoctrine()->getManager();
+    $detail = $em->getRepository('AppBundle:Details')->find($id);
+	
+        $form = $this->createFormBuilder($detail)
             ->add('name', 'text', array('attr' => array('size'=> '55','style' => 'height:50')))
 			->add('email', 'text', array('attr' => array('size'=> '55','style' => 'height:50')))
 			->add('address', 'text', array('attr' => array('size'=> '55','style' => 'height:50')))
@@ -46,7 +40,7 @@ class AddController extends Controller
 		if ($form->isValid()) {
 		
 			$em = $this->getDoctrine()->getManager();
-			$em->persist($details);
+			$em->persist($detail);
 			$em->flush();
 		    return new Response($this->render('AddressBook/forward.html.twig'));
 		
@@ -54,6 +48,10 @@ class AddController extends Controller
 		 return $this->render('AddressBook/add.html.twig', array(
             'form' => $form->createView(),
         ));
-    }
+    
+
+    $em->flush();
+
+    return new Response($this->render('AddressBook/forward.html.twig'));
+	}
 }
-	

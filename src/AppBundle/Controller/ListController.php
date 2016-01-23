@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Details;
+use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -16,14 +17,15 @@ class ListController extends Controller
      */
     public function listAction() 
 	{
+	$user = $this->getUser()->getId();
     $details = $this->getDoctrine()
         ->getRepository('AppBundle:Details')
-        ->findAll();
+        ->findByUser($user);
 
     if (!$details) {
-        throw $this->createNotFoundException(
-            'No product found'
-        );
+        //throw $this->createNotFoundException(
+            echo 'No info found in your address book ';
+        //);
     }
 
      return  $this->render('AddressBook/list.html.twig', array(

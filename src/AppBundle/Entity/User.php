@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
@@ -18,11 +19,17 @@ class User extends BaseUser
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
+	
+	/**
+     * @ORM\OneToMany(targetEntity="Details", mappedBy="User")
+     */
+    protected $details;
+	
     public function __construct()
     {
         parent::__construct();
         // your own logic
+		$this->details = new ArrayCollection();
     }
 
     /**
@@ -33,5 +40,38 @@ class User extends BaseUser
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Add details
+     *
+     * @param \AppBundle\Entity\Details $details
+     * @return User
+     */
+    public function addDetail(\AppBundle\Entity\Details $details)
+    {
+        $this->details[] = $details;
+
+        return $this;
+    }
+
+    /**
+     * Remove details
+     *
+     * @param \AppBundle\Entity\Details $details
+     */
+    public function removeDetail(\AppBundle\Entity\Details $details)
+    {
+        $this->details->removeElement($details);
+    }
+
+    /**
+     * Get details
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getDetails()
+    {
+        return $this->details;
     }
 }

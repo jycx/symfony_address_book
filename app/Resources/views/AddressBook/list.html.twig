@@ -5,11 +5,11 @@ body{background-color:#8FBC8F}
 </head>
 <center>
 <h1> Address Book</h1>
-
+ <h2><a href="/form/add">Add new one </a></h2> 
 {% block body %}
 	
    {% for detail in details %}
-         <h3><a href="/form/list/{{detail.id}}">{{ detail.name }}</a></h3> 
+         <h3> {{ detail.name }}</a>  <a href="/form/list/{{detail.id}}">view</a> <a href="/form/update/{{detail.id}}"> edit</a>  <a href="/form/remove/{{detail.id}}">remove</a></h3> 
    {% endfor %}
 
 	
