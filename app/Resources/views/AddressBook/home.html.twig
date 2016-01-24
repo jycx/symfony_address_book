@@ -1,12 +1,17 @@
 <head>
 <style>
-body{background-color:#8FBC8F}
+body{background-color:#F0FFFF}
+img{
+		width: 1300px;
+		height: 500px;}
 </style>
+<script src="{{ asset('js/main.js') }}"></script>
 </head>
 <center>
-<h1> Address Book</h1>
-
 {% block body %}
-         <h3><a href="/login"> Login</a></h3> 
-         <h3><a href="/register">register </a></h3> 
+         <body onload="change()">
+		 <h1> Address Book</h1>
+         <p><strong><a href="/login"> Login</a> 
+         <a href="/register">register </a></strong></p> 
+		 <img id ="img" src="img/1.jpg" alt="" />	
 {% endblock %}
